@@ -1,0 +1,23 @@
+plugins {
+    id 'io.github.maiconfz.java_spring_jobrunner_example.java-application-conventions'
+    id 'org.springframework.boot' version '3.0.2'
+    id "io.spring.dependency-management" version "1.1.0"
+}
+
+dependencies {
+    implementation project(':core')
+    implementation 'org.springframework.boot:spring-boot-starter'
+    implementation 'org.jobrunr:jobrunr-spring-boot-starter:5.3.3'
+    implementation 'com.google.code.gson:gson:2.10.1'
+    implementation 'org.xerial:sqlite-jdbc:3.40.0.0'
+}
+
+application {
+    mainClass = 'io.github.maiconfz.java_spring_jobrunner_example.job_runner.App'
+}
+
+java {
+    toolchain {
+            languageVersion.set(JavaLanguageVersion.of(17))
+    }
+}
