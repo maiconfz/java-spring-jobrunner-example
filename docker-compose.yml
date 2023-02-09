@@ -1,0 +1,7 @@
+version: "0.1.0"
+services:
+  jobrunner:
+    build: .
+    image: maiconfz/java-spring-jonrunner-example/jobrunner:0.1.0
+    ports:
+      - "9000:9000"
