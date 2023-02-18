@@ -1,0 +1,17 @@
+org:
+  jobrunr:
+    dashboard:
+      enabled: true
+      port: 9000
+    background-job-server:
+      enabled: true
+      worker-count: 4
+    database:
+      datasource: jobrunrDataSource
+jobrunr:
+  db:
+    serverName: jobrunner-db
+    port: 5432
+    dbName: changeit
+    user: changeit
+    password: changeit

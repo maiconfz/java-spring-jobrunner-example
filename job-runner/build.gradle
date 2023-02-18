@@ -24,17 +24,17 @@ java {
 
 def dockerComposeUpTask = tasks.register('dockerComposeUp', Exec) {
     workingDir '../'
-    commandLine 'docker', 'compose', 'up', '-d'
+    commandLine 'docker', 'compose', '--profile', 'app', 'up', '-d'
 }
 
 def dockerComposeUpDevServicesTask = tasks.register('dockerComposeUpDevServices', Exec) {
     workingDir '../'
-    commandLine 'docker', 'compose', '--profile', 'dev', 'up', 'jobrunner-db', '-d'
+    commandLine 'docker', 'compose', '--profile', 'dev', 'up', '-d'
 }
 
 def dockerComposeStopDevServicesTask = tasks.register('dockerComposeStopDevServices', Exec) {
     workingDir '../'
-    commandLine 'docker', 'compose', 'stop', 'jobrunner-db'
+    commandLine 'docker', 'compose', '--profile', 'dev', 'stop'
 }
 
 def runWithServicesLocalTask = tasks.register('runWithServicesLocal', Exec) {
