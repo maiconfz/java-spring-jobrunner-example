@@ -37,7 +37,7 @@ def dockerComposeStopDevServicesTask = tasks.register('dockerComposeStopDevServi
     commandLine 'docker', 'compose', 'stop', 'jobrunner-db'
 }
 
-def runDevTask = tasks.register('runDev', Exec) {
+def runWithServicesLocalTask = tasks.register('runWithServicesLocal', Exec) {
     dependsOn dockerComposeUpDevServicesTask
     dependsOn run
 }
