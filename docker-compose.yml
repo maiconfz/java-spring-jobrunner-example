@@ -24,3 +24,8 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "6543:5432"
+    volumes:
+      - maiconfz-java-spring-jonrunner-example-jobrunner-db-pgdata:/var/lib/postgresql/data
+volumes:
+  maiconfz-java-spring-jonrunner-example-jobrunner-db-pgdata:
+
