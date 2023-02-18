@@ -9,7 +9,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter'
     implementation 'org.jobrunr:jobrunr-spring-boot-starter:5.3.3'
     implementation 'com.google.code.gson:gson:2.10.1'
-    implementation 'org.xerial:sqlite-jdbc:3.40.0.0'
+    implementation 'org.postgresql:postgresql:42.5.3'
 }
 
 application {
@@ -20,4 +20,24 @@ java {
     toolchain {
             languageVersion.set(JavaLanguageVersion.of(17))
     }
+}
+
+def dockerComposeUpTask = tasks.register('dockerComposeUp', Exec) {
+    workingDir '../'
+    commandLine 'docker', 'compose', 'up', '-d'
+}
+
+def dockerComposeUpDevServicesTask = tasks.register('dockerComposeUpDevServices', Exec) {
+    workingDir '../'
+    commandLine 'docker', 'compose', '--profile', 'dev', 'up', 'jobrunner-db', '-d'
+}
+
+def dockerComposeStopDevServicesTask = tasks.register('dockerComposeStopDevServices', Exec) {
+    workingDir '../'
+    commandLine 'docker', 'compose', 'stop', 'jobrunner-db'
+}
+
+def runDevTask = tasks.register('runDev', Exec) {
+    dependsOn dockerComposeUpDevServicesTask
+    dependsOn run
 }

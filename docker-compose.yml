@@ -2,6 +2,18 @@ version: "0.1.0"
 services:
   jobrunner:
     build: .
-    image: maiconfz/java-spring-jonrunner-example/jobrunner:0.1.0
+    image: maiconfz/java-spring-jonrunner-example/jobrunner:${version:-latest}
+    depends_on:
+      - jobrunner-db
     ports:
       - "9000:9000"
+  jobrunner-db:
+    image: postgres:15-alpine
+    profiles: ["dev"]
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "6543:5432"
+    
