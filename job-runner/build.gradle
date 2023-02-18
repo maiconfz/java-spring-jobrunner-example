@@ -22,19 +22,42 @@ java {
     }
 }
 
-def dockerComposeUpTask = tasks.register('dockerComposeUp', Exec) {
-    workingDir '../'
-    commandLine 'docker', 'compose', '--profile', 'app', 'up', '-d'
+project.ext {
+  dockerComposeProfile = 'app'
 }
 
-def dockerComposeUpDevServicesTask = tasks.register('dockerComposeUpDevServices', Exec) {
-    workingDir '../'
-    commandLine 'docker', 'compose', '--profile', 'dev', 'up', '-d'
+def dockerComposeUpProfileTask = tasks.register('dockerComposeUpProfile') {
+    doLast {
+        println "docker compose profile: ${project.ext.dockerComposeProfile}"
+        exec {
+            workingDir '../'
+            commandLine 'bash', '-c', "docker compose --profile ${project.ext.dockerComposeProfile} up -d"
+        }
+    }
 }
 
-def dockerComposeStopDevServicesTask = tasks.register('dockerComposeStopDevServices', Exec) {
-    workingDir '../'
-    commandLine 'docker', 'compose', '--profile', 'dev', 'stop'
+def dockerComposeStopProfileTask = tasks.register('dockerComposeStopProfile') {
+    doLast {
+        println "docker compose profile: ${project.ext.dockerComposeProfile}"
+        exec {
+            workingDir '../'
+            commandLine 'bash', '-c', "docker compose --profile ${project.ext.dockerComposeProfile} stop"
+        }
+    }
+}
+
+def dockerComposeUpTask = tasks.register('dockerComposeUp') {
+    dependsOn dockerComposeUpProfileTask
+}
+
+def dockerComposeUpDevServicesTask = tasks.register('dockerComposeUpDevServices') {
+    project.ext.dockerComposeProfile = 'dev'
+    dependsOn dockerComposeUpProfileTask
+}
+
+def dockerComposeStopDevServicesTask = tasks.register('dockerComposeStopDevServices') {
+    project.ext.dockerComposeProfile = 'dev'
+    dependsOn dockerComposeStopProfileTask
 }
 
 def runWithServicesLocalTask = tasks.register('runWithServicesLocal', Exec) {
