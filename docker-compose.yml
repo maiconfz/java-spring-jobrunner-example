@@ -1,23 +1,23 @@
-version: "0.1.0"
+name: java-spring-jobrunner-example
 services:
-  jobrunner:
+  app:
     hostname: jobrunner-app
     build:
       context: .
       args:
-        - APPLICATION_YML_PATH=${APPLICATION_YML_PATH}
-    image: maiconfz/java-spring-jonrunner-example/jobrunner${TARGET_ENV:+-}${TARGET_ENV}:${JOBRUNNER_VERSION:-latest}
+        - APPLICATION_YML_FOLDER_PATH=${APPLICATION_YML_FOLDER_PATH}
+    image: maiconfz/java-spring-jonrunner-example/app:${VERSION:-latest}
     profiles: [ "app" ]
     depends_on:
-      - jobrunner-db
+      - db
     environment:
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILE:-default}
+      SPRING_PROFILES_ACTIVE: local
     ports:
       - "9000:9000"
-  jobrunner-db:
+  db:
     hostname: jobrunner-db
     image: postgres:15-alpine
-    profiles: [ "dev", "db", "app" ]
+    profiles: [ "app", "db", "dev" ]
     restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
@@ -28,4 +28,3 @@ services:
       - maiconfz-java-spring-jonrunner-example-jobrunner-db-pgdata:/var/lib/postgresql/data
 volumes:
   maiconfz-java-spring-jonrunner-example-jobrunner-db-pgdata:
-

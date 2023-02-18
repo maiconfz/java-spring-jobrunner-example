@@ -1,10 +1,10 @@
 # syntax=docker/dockerfile:1
 FROM gradle:8-jdk17-alpine AS builder
-ARG APPLICATION_YML_PATH
-RUN echo "APPLICATION_YML_PATH=$APPLICATION_YML_PATH"
+ARG APPLICATION_YML_FOLDER_PATH
+RUN echo "APPLICATION_YML_FOLDER_PATH=$APPLICATION_YML_FOLDER_PATH"
 WORKDIR /home/gradle/app
 COPY ./ ./
-COPY $APPLICATION_YML_PATH ./job-runner/src/main/resources/
+COPY $APPLICATION_YML_FOLDER_PATH/* ./job-runner/src/main/resources/
 RUN gradle clean bootJar --no-daemon
 
 FROM eclipse-temurin:17-jre-alpine
