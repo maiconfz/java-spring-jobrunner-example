@@ -5,22 +5,22 @@ services:
     build:
       context: .
       args:
-        - SPRING_PROFILE=${SPRING_PROFILE:-default}
         - APPLICATION_YML_PATH=${APPLICATION_YML_PATH}
     image: maiconfz/java-spring-jonrunner-example/jobrunner${TARGET_ENV:+-}${TARGET_ENV}:${JOBRUNNER_VERSION:-latest}
-    profiles: ["app"]
+    profiles: [ "app" ]
     depends_on:
       - jobrunner-db
+    environment:
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILE:-default}
     ports:
       - "9000:9000"
   jobrunner-db:
     hostname: jobrunner-db
     image: postgres:15-alpine
-    profiles: ["dev", "db", "app"]
+    profiles: [ "dev", "db", "app" ]
     restart: always
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     ports:
       - "6543:5432"
-    
